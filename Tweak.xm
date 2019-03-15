@@ -1,3 +1,5 @@
+#import "HBRPrefs.h"
+
 #pragma mark Definitions
 
 #define __MAX_ICONS 50
@@ -6,6 +8,7 @@
 #define __CANCEL_GESTURE_RANGE 5.0
 #define __ANIMATION_DURATION 0.2
 #define __PLIST_STORE [@"~/Library/SpringBoard/IconState_harbor.plist" stringByExpandingTildeInPath]
+#define __PREFS [HBRPrefs sharedInstance]
 
 struct SBIconCoordinate {
     long long row;
@@ -88,7 +91,7 @@ struct SBIconCoordinate {
 
 @interface SBIconController
 
-+ (SBIconController*)sharedInstance;
++ (id)sharedInstance;
 
 @property(retain, nonatomic) SBIconModel *model;
 
@@ -196,6 +199,11 @@ typedef NS_ENUM(NSInteger, SBEnvironmentMode) {
 %new
 - (void)harbor_updateIconTransformsWithPoint:(CGPoint)touchPoint {
 
+  CGFloat waveWidth = [__PREFS waveWidth];
+  CGFloat waveHeight = [__PREFS waveHeight];
+  CGFloat smoothness = [__PREFS smoothness];
+  CGFloat xTranslation = [__PREFS xTranslation];
+
    for (SBIcon *icon in self.model.icons) {
      SBIconView *iconView = [self.viewMap mappedIconViewForIcon:icon];
      unsigned long long index = [self.model indexForIcon:icon];
@@ -208,12 +216,12 @@ typedef NS_ENUM(NSInteger, SBEnvironmentMode) {
 
      CGFloat yOffset = 0.0;
 
-     if (offset < __WAVE_WIDTH && offset > -__WAVE_WIDTH)
-      yOffset = ((cos((M_PI * offset) / __WAVE_WIDTH) + 1) / 2) * __WAVE_HEIGHT;
+     if (offset < waveWidth && offset > -waveWidth)
+      yOffset = ((cos((M_PI * offset) / waveWidth) + 1) / 2) * waveHeight;
 
      CGAffineTransform translation = CGAffineTransformMakeTranslation(0.0, -yOffset);
 
-     CGFloat percentage = yOffset / __WAVE_HEIGHT;
+     CGFloat percentage = yOffset / waveHeight;
      CGFloat normalizedWidth = scaledAlignmentIconSize.width + (defaultIconSize.width - scaledAlignmentIconSize.width) * percentage;
      CGFloat scale = normalizedWidth / scaledAlignmentIconSize.width;
 
@@ -229,7 +237,7 @@ typedef NS_ENUM(NSInteger, SBEnvironmentMode) {
      CGPoint originalIconOrigin = [self originForIconAtCoordinate:(struct SBIconCoordinate){.row = 0, .col = index + 1}];
      CGFloat offset = touchPoint.x - (originalIconOrigin.x + ([self scaledAlignmentIconSize].width / 2));
 
-     CGFloat xOffset = -(atan(offset / (__WAVE_WIDTH / 2)) / (M_PI / 2)) * (__WAVE_WIDTH / 2);
+     CGFloat xOffset = -(atan(offset / smoothness / (M_PI / 4)) / (M_PI / 2)) * xTranslation / (M_PI / 2);
 
      iconView.transform = CGAffineTransformTranslate(iconView.transform, xOffset, 0.0);
    }
@@ -446,7 +454,7 @@ static CGFloat iconContentScaleOverride = 0.0;
     self.currentIconStateURL = [NSURL fileURLWithPath:__PLIST_STORE];
 
     if (![[NSFileManager defaultManager] fileExistsAtPath:__PLIST_STORE]) {
-      [[[%c(SBIconController) sharedInstance] model] _saveIconState];
+      [(SBIconModel*)[[%c(SBIconController) sharedInstance] model] _saveIconState];
     }
 
   }
