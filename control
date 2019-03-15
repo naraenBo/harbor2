@@ -1,0 +1,9 @@
+Package: com.eswick.harbor2
+Name: Harbor 2
+Depends: mobilesubstrate
+Version: 1.0.0
+Architecture: iphoneos-arm
+Description: macOS-style Dock
+Maintainer: Evan Swick
+Author: Evan Swick
+Section: Tweaks
