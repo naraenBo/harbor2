@@ -44,46 +44,6 @@
 			<key>showValue</key>
 			<true/>
 		</dict>
-		<dict>
-			<key>cell</key>
-			<string>PSGroupCell</string>
-			<key>label</key>
-			<string>Horizontal Space</string>
-		</dict>
-		<dict>
-			<key>set</key>
-			<string>setXTranslation:forSpecifier:</string>
-			<key>get</key>
-			<string>xTranslation:</string>
-			<key>max</key>
-			<integer>150</integer>
-			<key>min</key>
-			<integer>10</integer>
-			<key>cell</key>
-			<string>PSSliderCell</string>
-			<key>showValue</key>
-			<true/>
-		</dict>
-		<dict>
-			<key>cell</key>
-			<string>PSGroupCell</string>
-			<key>label</key>
-			<string>Horizontal Smoothness</string>
-		</dict>
-		<dict>
-			<key>set</key>
-			<string>setSmoothness:forSpecifier:</string>
-			<key>get</key>
-			<string>smoothness:</string>
-			<key>max</key>
-			<integer>100</integer>
-			<key>min</key>
-			<integer>5</integer>
-			<key>cell</key>
-			<string>PSSliderCell</string>
-			<key>showValue</key>
-			<true/>
-		</dict>
 	</array>
 	<key>title</key>
 	<string>Harbor 2</string>

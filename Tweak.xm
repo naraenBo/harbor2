@@ -66,6 +66,8 @@ struct SBIconCoordinate {
 
 @interface SBDockIconListView : SBIconListView
 
+@property(nonatomic) CGFloat effectiveSpacing;
+
 - (CGPoint)originForIconAtCoordinate:(SBIconCoordinate)arg1;
 - (CGSize)scaledAlignmentIconSize;
 
@@ -201,10 +203,19 @@ typedef NS_ENUM(NSInteger, SBEnvironmentMode) {
 
   CGFloat waveWidth = [__PREFS waveWidth];
   CGFloat waveHeight = [__PREFS waveHeight];
-  CGFloat smoothness = [__PREFS smoothness];
-  CGFloat xTranslation = [__PREFS xTranslation];
 
-   for (SBIcon *icon in self.model.icons) {
+  CGFloat totalAddedWidth = 0.0;
+
+  CGFloat currentPos = 0.0;
+  while (currentPos < waveWidth) {
+    CGFloat percentage = ((cos((M_PI * currentPos) / waveWidth) + 1) / 2);
+
+    totalAddedWidth += [self scaledAlignmentIconSize].width * percentage;
+
+    currentPos += [self scaledAlignmentIconSize].width + self.effectiveSpacing;
+  }
+
+  for (SBIcon *icon in self.model.icons) {
      SBIconView *iconView = [self.viewMap mappedIconViewForIcon:icon];
      unsigned long long index = [self.model indexForIcon:icon];
 
@@ -228,19 +239,10 @@ typedef NS_ENUM(NSInteger, SBEnvironmentMode) {
      [iconView harbor_setFocusPercentage:percentage];
 
      iconView.transform = CGAffineTransformScale(translation, scale, scale);
-   }
 
-   for (SBIcon *icon in self.model.icons) {
-     SBIconView *iconView = [self.viewMap mappedIconViewForIcon:icon];
-     unsigned long long index = [self.model indexForIcon:icon];
-
-     CGPoint originalIconOrigin = [self originForIconAtCoordinate:(struct SBIconCoordinate){.row = 0, .col = index + 1}];
-     CGFloat offset = touchPoint.x - (originalIconOrigin.x + ([self scaledAlignmentIconSize].width / 2));
-
-     CGFloat xOffset = -(atan(offset / smoothness / (M_PI / 4)) / (M_PI / 2)) * xTranslation / (M_PI / 2);
-
-     iconView.transform = CGAffineTransformTranslate(iconView.transform, xOffset, 0.0);
-   }
+     CGFloat linearPercentage = MIN(1.0, (fabs(offset) / waveWidth));
+     iconView.transform = CGAffineTransformTranslate(iconView.transform, linearPercentage * totalAddedWidth * (offset > 0 ? -1.0 : 1.0), 0.0);
+  }
 }
 
 %new

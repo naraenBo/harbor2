@@ -6,8 +6,6 @@
 #define __DEFAULTS @ { \
   @"waveWidth" : @100.0, \
   @"waveHeight" : @100.0, \
-  @"smoothness" : @50.0 \
-  @"xTranslation" : @50.0 \
 }
 
 @interface HBRPrefs ()
@@ -40,24 +38,6 @@
 
 - (void)setWaveHeight:(CGFloat)waveHeight {
   self._preferences[@"waveHeight"] = @(waveHeight);
-  [self savePreferences];
-}
-
-- (CGFloat)smoothness {
-  return [self._preferences[@"smoothness"] floatValue];
-}
-
-- (void)setSmoothness:(CGFloat)smoothness {
-  self._preferences[@"smoothness"] = @(smoothness);
-  [self savePreferences];
-}
-
-- (CGFloat)xTranslation {
-  return [self._preferences[@"xTranslation"] floatValue];
-}
-
-- (void)setXTranslation:(CGFloat)xTranslation {
-  self._preferences[@"xTranslation"] = @(xTranslation);
   [self savePreferences];
 }
 

@@ -29,21 +29,4 @@
 	[prefs setWaveHeight:[waveHeight floatValue]];
 }
 
-- (NSNumber*)smoothness:(PSSpecifier*)specifier {
-	return [NSNumber numberWithFloat:[prefs smoothness]];
-}
-
-- (void)setSmoothness:(NSNumber*)smoothness forSpecifier:(NSNumber*)specifier {
-	[prefs setSmoothness:[smoothness floatValue]];
-}
-
-
-- (NSNumber*)xTranslation:(PSSpecifier*)specifier {
-	return [NSNumber numberWithFloat:[prefs xTranslation]];
-}
-
-- (void)setXTranslation:(NSNumber*)xTranslation forSpecifier:(NSNumber*)specifier {
-	[prefs setXTranslation:[xTranslation floatValue]];
-}
-
 @end
