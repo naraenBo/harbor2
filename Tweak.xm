@@ -7,6 +7,7 @@
 #define __ANIMATION_DURATION 0.2
 #define __ANIMATION_DURATION_SPRING 0.35
 #define __SPRING_ANIMATION_DAMPING 0.5
+#define __DEFAULT_PLIST_STORE [@"~/Library/SpringBoard/IconState.plist" stringByExpandingTildeInPath]
 #define __PLIST_STORE [@"~/Library/SpringBoard/IconState_harbor.plist" stringByExpandingTildeInPath]
 #define __PREFS [HBRPrefs sharedInstance]
 
@@ -480,6 +481,10 @@ static CGFloat iconContentScaleOverride = 0.0;
 %hook SBDefaultIconModelStore
 
 - (id)init {
+  if (![[NSFileManager defaultManager] fileExistsAtPath:__PLIST_STORE]) {
+    [[NSFileManager defaultManager] copyItemAtPath:__DEFAULT_PLIST_STORE toPath:__PLIST_STORE error:nil];
+  }
+
   self = %orig;
   if (self) {
     self.currentIconStateURL = [NSURL fileURLWithPath:__PLIST_STORE];
