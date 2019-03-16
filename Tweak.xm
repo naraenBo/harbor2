@@ -196,6 +196,10 @@ typedef NS_ENUM(NSInteger, SBEnvironmentMode) {
   return closestIcon;
 }
 
+static CGFloat waveFunction(CGFloat x, CGFloat waveWidth) {
+  return (cos((M_PI * x) / waveWidth) + 1) / 2;
+}
+
 %new
 - (void)harbor_updateIconTransformsWithPoint:(CGPoint)touchPoint {
 
@@ -204,13 +208,13 @@ typedef NS_ENUM(NSInteger, SBEnvironmentMode) {
 
   CGFloat totalAddedWidth = 0.0;
 
-  CGFloat currentPos = 0.0;
-  while (currentPos < waveWidth) {
-    CGFloat percentage = ((cos((M_PI * currentPos) / waveWidth) + 1) / 2);
+  CGFloat widthCalculationPosition = 0.0;
+  while (widthCalculationPosition < waveWidth) {
+    CGFloat percentage = waveFunction(widthCalculationPosition, waveWidth);
 
     totalAddedWidth += [self scaledAlignmentIconSize].width * percentage;
 
-    currentPos += [self scaledAlignmentIconSize].width + self.effectiveSpacing;
+    widthCalculationPosition += [self scaledAlignmentIconSize].width + self.effectiveSpacing;
   }
 
   for (SBIcon *icon in self.model.icons) {
@@ -226,7 +230,7 @@ typedef NS_ENUM(NSInteger, SBEnvironmentMode) {
      CGFloat yOffset = 0.0;
 
      if (offset < waveWidth && offset > -waveWidth)
-      yOffset = ((cos((M_PI * offset) / waveWidth) + 1) / 2) * waveHeight;
+      yOffset = waveFunction(offset, waveWidth) * waveHeight;
 
      CGAffineTransform translation = CGAffineTransformMakeTranslation(0.0, -yOffset);
 

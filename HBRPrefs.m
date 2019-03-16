@@ -3,9 +3,14 @@
 
 #define __PREFS_STORE [@"~/Library/Preferences/com.eswick.harbor2.plist" stringByExpandingTildeInPath]
 
+static const NSString* kWaveWidthKey = @"waveWidth";
+static const NSString* kWaveHeightKey = @"waveHeight";
+
+static const char* kPreferencesChangedNotificationKey = "com.eswick.harbor2.preferences_changed";
+
 #define __DEFAULTS @ { \
-  @"waveWidth" : @100.0, \
-  @"waveHeight" : @100.0, \
+  kWaveWidthKey : @100.0, \
+  kWaveHeightKey : @100.0, \
 }
 
 @interface HBRPrefs ()
@@ -20,24 +25,24 @@
 
 - (void)savePreferences {
   [self._preferences writeToFile:__PREFS_STORE atomically:YES];
-  notify_post("com.eswick.harbor2.preferences_changed");
+  notify_post(kPreferencesChangedNotificationKey);
 }
 
 - (CGFloat)waveWidth {
-  return [self._preferences[@"waveWidth"] floatValue];
+  return [self._preferences[kWaveWidthKey] floatValue];
 }
 
 - (void)setWaveWidth:(CGFloat)waveWidth {
-  self._preferences[@"waveWidth"] = @(waveWidth);
+  self._preferences[kWaveWidthKey] = @(waveWidth);
   [self savePreferences];
 }
 
 - (CGFloat)waveHeight {
-  return [self._preferences[@"waveHeight"] floatValue];
+  return [self._preferences[kWaveHeightKey] floatValue];
 }
 
 - (void)setWaveHeight:(CGFloat)waveHeight {
-  self._preferences[@"waveHeight"] = @(waveHeight);
+  self._preferences[kWaveHeightKey] = @(waveHeight);
   [self savePreferences];
 }
 
@@ -56,7 +61,7 @@
 
         int token, status;
 
-        status = notify_register_dispatch("com.eswick.harbor2.preferences_changed", &token,
+        status = notify_register_dispatch(kPreferencesChangedNotificationKey, &token,
           dispatch_get_main_queue(), ^(int t) {
             _prefs._preferences = [NSMutableDictionary dictionaryWithContentsOfFile:__PREFS_STORE];
         });
