@@ -387,6 +387,9 @@ static SBEnvironmentMode previousEnvironmentMode = SBEnvironmentModeHomeScreen;
 %hook SBRootFolderView
 
 - (unsigned long long)dockEdge {
+  if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPhone) {
+    return %orig;
+  }
   return 3;
 }
 
