@@ -3,8 +3,6 @@
 #pragma mark Definitions
 
 #define __MAX_ICONS 50
-#define __WAVE_WIDTH 100.0
-#define __WAVE_HEIGHT 100.0
 #define __CANCEL_GESTURE_RANGE 5.0
 #define __ANIMATION_DURATION 0.2
 #define __PLIST_STORE [@"~/Library/SpringBoard/IconState_harbor.plist" stringByExpandingTildeInPath]
@@ -358,6 +356,16 @@ static SBEnvironmentMode previousEnvironmentMode = SBEnvironmentModeHomeScreen;
   }
 
   return %orig;
+}
+
+%end
+
+#pragma mark Root Folder View Height Fix
+
+%hook SBRootFolderView
+
+- (unsigned long long)dockEdge {
+  return 3;
 }
 
 %end
