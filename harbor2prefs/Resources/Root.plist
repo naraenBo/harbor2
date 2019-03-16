@@ -18,7 +18,7 @@
 			<key>max</key>
 			<integer>150</integer>
 			<key>min</key>
-			<integer>1</integer>
+			<integer>20</integer>
 			<key>cell</key>
 			<string>PSSliderCell</string>
 			<key>showValue</key>
@@ -43,6 +43,62 @@
 			<string>PSSliderCell</string>
 			<key>showValue</key>
 			<true/>
+		</dict>
+		<dict>
+			<key>footerText</key>
+			<string>Harbor 2 is free and open source software, made in my spare time. I am attending college this fall and would appreciate if you considered donating. Thank you!</string>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Donate</string>
+		</dict>
+		<dict>
+			<key>label</key>
+			<string>Donate with PayPal</string>
+			<key>icon</key>
+			<string>paypal.png</string>
+			<key>action</key>
+			<string>paypal:</string>
+			<key>cell</key>
+			<string>PSButtonCell</string>
+		</dict>
+		<dict>
+			<key>label</key>
+			<string>Donate with Bitcoin</string>
+			<key>icon</key>
+			<string>bitcoin.png</string>
+			<key>action</key>
+			<string>bitcoin:</string>
+			<key>cell</key>
+			<string>PSButtonCell</string>
+		</dict>
+		<dict>
+			<key>footerText</key>
+			<string>Harbor 2 © 2019 Evan Swick. All Rights Reserved.</string>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Info</string>
+		</dict>
+		<dict>
+			<key>label</key>
+			<string>@e_swick on Twitter</string>
+			<key>icon</key>
+			<string>twitter.png</string>
+			<key>action</key>
+			<string>follow:</string>
+			<key>cell</key>
+			<string>PSButtonCell</string>
+		</dict>
+		<dict>
+			<key>label</key>
+			<string>Harbor on GitHub</string>
+			<key>icon</key>
+			<string>github.png</string>
+			<key>action</key>
+			<string>github:</string>
+			<key>cell</key>
+			<string>PSButtonCell</string>
 		</dict>
 	</array>
 	<key>title</key>
