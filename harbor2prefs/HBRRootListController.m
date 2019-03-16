@@ -29,6 +29,14 @@
 	[prefs setWaveHeight:[waveHeight floatValue]];
 }
 
+- (NSNumber*)springAnimation:(PSSpecifier*)specifier {
+	return [NSNumber numberWithBool:[prefs springAnimationEnabled]];
+}
+
+- (void)setSpringAnimation:(NSNumber*)waveHeight forSpecifier:(NSNumber*)specifier {
+	[prefs setSpringAnimationEnabled:[waveHeight boolValue]];
+}
+
 - (void)follow:(id)arg1 {
   if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"twitter://"]]) {
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"twitter://user?screen_name=e_swick"]];

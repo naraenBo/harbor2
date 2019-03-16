@@ -5,6 +5,8 @@
 #define __MAX_ICONS 50
 #define __CANCEL_GESTURE_RANGE 5.0
 #define __ANIMATION_DURATION 0.2
+#define __ANIMATION_DURATION_SPRING 0.35
+#define __SPRING_ANIMATION_DAMPING 0.5
 #define __PLIST_STORE [@"~/Library/SpringBoard/IconState_harbor.plist" stringByExpandingTildeInPath]
 #define __PREFS [HBRPrefs sharedInstance]
 
@@ -260,16 +262,31 @@ static CGFloat waveFunction(CGFloat x, CGFloat waveWidth) {
 
 %new
 - (void)harbor_updateIconTransformsWithPointAnimated:(CGPoint)touchPoint {
-  [UIView animateWithDuration:__ANIMATION_DURATION animations:^{
-    [self harbor_updateIconTransformsWithPoint:touchPoint];
-  }];
+
+  if ([__PREFS springAnimationEnabled]) {
+    [UIView animateWithDuration:__ANIMATION_DURATION_SPRING delay:0.0 usingSpringWithDamping:__SPRING_ANIMATION_DAMPING initialSpringVelocity:0 options:0 animations:^{
+      [self harbor_updateIconTransformsWithPoint:touchPoint];
+    } completion:nil];
+  } else {
+    [UIView animateWithDuration:__ANIMATION_DURATION animations:^{
+      [self harbor_updateIconTransformsWithPoint:touchPoint];
+    }];
+  }
+
+
 }
 
 %new
 - (void)harbor_resetIconTransformsAnimated {
-  [UIView animateWithDuration:__ANIMATION_DURATION animations:^{
-    [self harbor_resetIconTransforms];
-  }];
+  if ([__PREFS springAnimationEnabled]) {
+    [UIView animateWithDuration:__ANIMATION_DURATION_SPRING delay:0.0 usingSpringWithDamping:__SPRING_ANIMATION_DAMPING initialSpringVelocity:0 options:0 animations:^{
+      [self harbor_resetIconTransforms];
+    } completion:nil];
+  } else {
+    [UIView animateWithDuration:__ANIMATION_DURATION animations:^{
+      [self harbor_resetIconTransforms];
+    } completion:nil];
+  }
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {

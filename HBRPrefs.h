@@ -10,4 +10,7 @@
 - (CGFloat)waveHeight;
 - (void)setWaveHeight:(CGFloat)waveHeight;
 
+- (BOOL)springAnimationEnabled;
+- (void)setSpringAnimationEnabled:(BOOL)enabled;
+
 @end

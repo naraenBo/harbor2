@@ -5,12 +5,14 @@
 
 static const NSString* kWaveWidthKey = @"waveWidth";
 static const NSString* kWaveHeightKey = @"waveHeight";
+static const NSString* kSpringAnimationEnabledKey = @"springAnimationEnabled";
 
 static const char* kPreferencesChangedNotificationKey = "com.eswick.harbor2.preferences_changed";
 
 #define __DEFAULTS @ { \
   kWaveWidthKey : @100.0, \
   kWaveHeightKey : @100.0, \
+  kSpringAnimationEnabledKey : @(YES) \
 }
 
 @interface HBRPrefs ()
@@ -43,6 +45,15 @@ static const char* kPreferencesChangedNotificationKey = "com.eswick.harbor2.pref
 
 - (void)setWaveHeight:(CGFloat)waveHeight {
   self._preferences[kWaveHeightKey] = @(waveHeight);
+  [self savePreferences];
+}
+
+- (BOOL)springAnimationEnabled {
+  return [self._preferences[kSpringAnimationEnabledKey] boolValue];
+}
+
+- (void)setSpringAnimationEnabled:(BOOL)enabled {
+  self._preferences[kSpringAnimationEnabledKey] = @(enabled);
   [self savePreferences];
 }
 
